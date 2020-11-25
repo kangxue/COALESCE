@@ -1,6 +1,6 @@
 
 
-#### [ code release is still in progress . Let me know if you encounter any bugs or have questions (kangxue.yin@gmail.com)]
+#### [ We are still working on code release. This is not the final version yet. Let us know if you encounter any bugs, errors or have any questions (kangxue.yin@gmail.com)]
 
 
 ### Prerequisites
