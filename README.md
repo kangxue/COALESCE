@@ -1,6 +1,6 @@
 
 
-#### [ code release is still in progress . Let me know(kangxue.yin@gmail.com) if you encounter any bugs or have questions ]
+#### [ code release is still in progress . Let me know if you encounter any bugs or have questions (kangxue.yin@gmail.com)]
 
 
 ### Prerequisites
@@ -23,7 +23,7 @@ and <a href="https://github.com/czq142857/IM-NET">IM-NET</a>.  Before run the co
 
 ### Usage
 
-The commond lines for training and testing the models are all under the folder "CMD_sh/". You may need to open, read and modify them.
+The commond lines for training and testing the models are all under the folder "./CMD_sh". You may need to open, read and modify the .sh files.
 
 To train and test part alignment:
 ```
@@ -39,15 +39,11 @@ bash ./CMD_sh/partAE_train_chair1234.sh
 bash ./CMD_sh/jointSynthesis_train_chair.sh
 ```
 
-To test joint synthesis given  parts from different objects:
+To test joint synthesis for given parts from different objects:
 
-First set 
-```
-diffShape="1"
-```
-in "./CMD_sh/partAlign_train_chair.sh". And run it to export aligned parts from different objects. 
+First set ```diffShape="1"``` in ```"./CMD_sh/partAlign_train_chair.sh"```. And run it to export aligned parts from different objects. 
 
-Then run the test:
+Then run the test on the aligned parts:
 ```
 bash ./CMD_sh/jointSynthesis_test_onRealOutput_chair.sh
 ```
