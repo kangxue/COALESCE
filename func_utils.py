@@ -237,15 +237,15 @@ def getMeshInfo( work_dir, data_dir ):
 
     if work_dir=="03001627_Chair":
         part_name_list = ['12_back', '13_seat', '14_leg', '15_arm']
-        part_mesh_dir  = '../part_mesh/shapenet_mesh_chair/'
+        part_mesh_dir  = work_dir + '/shapenet_mesh_chair/'
 		
     elif work_dir=="02691156_Airplane":
         part_name_list = ['1_body', '2_wing', '3_tail', '4_engine']
-        part_mesh_dir  = '../part_mesh/shapenet_mesh_plane/'
+        part_mesh_dir  = work_dir + '/shapenet_mesh_plane/'
 
     elif work_dir=="03797390_Mug":
         part_name_list = ['1_handle', '2_body' ]
-        part_mesh_dir  = '../part_mesh/shapenet_mesh_mug/'
+        part_mesh_dir  = work_dir + '/shapenet_mesh_mug/'
 
     else:
         print( work_dir + " not matched!!!")
