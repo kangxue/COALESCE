@@ -41,7 +41,7 @@ bash ./CMD_sh/jointSynthesis_train_chair.sh
 
 To test joint synthesis for given parts from different objects:
 
-First set ```diffShape="1"``` in ```"./CMD_sh/partAlign_train_chair.sh"```. And run it to export aligned parts from different objects. 
+First set ```diffShape="1"``` in ```"./CMD_sh/partAlign_train_chair.sh"```. And run it to export aligned parts randomly selected from different objects. 
 
 Then run the test on the aligned parts:
 ```
