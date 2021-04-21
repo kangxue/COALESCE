@@ -1,8 +1,3 @@
-
-
-#### [ We are still working on code release. This is not the final version yet. Let us know if you encounter any bugs, errors or have any questions (kangxue.yin@gmail.com)]
-
-
 ### Prerequisites
 
 - Linux (tested under Ubuntu 16.04 )
