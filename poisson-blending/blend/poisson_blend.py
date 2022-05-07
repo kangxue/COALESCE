@@ -48,16 +48,16 @@ for kkk in range(share_id,total_num,share_total):
 		
 		#read joint
 		joint_dir = gen_joint_dir+"/"+str(kkk)+".out."+str(jjj)+".ply"
-		joint_v, joint_t = read_ply_triangle(joint_dir)
-		joint_p = compute_plane_for_each_triangle(joint_v, joint_t)
-		joint_map_v2t = compute_mapping_vertex_to_triangles(joint_v, joint_t)
-		joint_vn = compute_vertex_normal(joint_v, joint_t, joint_p, joint_map_v2t)
+		joint_v, joint_t = read_ply_triangle(joint_dir) #vertices and triangles of the joint mesh
+		joint_p = compute_plane_for_each_triangle(joint_v, joint_t) #the plane parameters (abcd so that ax+by+cz+d=0) for each triangle
+		joint_map_v2t = compute_mapping_vertex_to_triangles(joint_v, joint_t) #obtain a list storing: for a query vertex, which triangles are using it.
+		joint_vn = compute_vertex_normal(joint_v, joint_t, joint_p, joint_map_v2t) #the vertex normals for joint vertices
 
 		#gather edges
-		all_v = []
-		all_t = []
-		all_loop_vn = []
-		all_loop_e = []
+		all_v = [] #to store all vertices of the eroded parts
+		all_t = [] #to store all triangles of the eroded parts
+		all_loop_e = [] #to store vertices of the erosion boundaries of all parts
+		all_loop_vn = [] #to store normals of the vertices of the erosion boundaries
 		all_v_count = 0
 		all_v_count_list = [all_v_count]
 		for j in range(len(part_name_list)):
@@ -71,6 +71,7 @@ for kkk in range(share_id,total_num,share_total):
 				loop_e, v_use_flag = find_loops(v,e)
 				loop_vn = compute_vertex_normal_for_masked_vertices(v, t, v_use_flag)
 				print(len(loop_e))
+				#uncomment below to output discovered erosion boundaries (edges and loops)
 				#####write_ply_edge(ply_save_dir+"/"+part_name_list[j]+".edge.ply",v,e)
 				#####write_ply_edgeloop(ply_save_dir+"/"+part_name_list[j]+".loop.ply",loop_vn,loop_e)
 
@@ -81,9 +82,9 @@ for kkk in range(share_id,total_num,share_total):
 				all_v_count += len(v)
 				all_v_count_list.append(all_v_count)
 
-		corresponding_loop_e = []
-		corresponding_vertices = []
-		seam_t_all = []
+		corresponding_loop_e = [] #store corresponding vertices on the joint mesh
+		corresponding_vertices = [] #store corresponding vertices on the parts (actually, on the erosion boundaries)
+		seam_t_all = [] #store triangles to fill the seams between the joint mesh and the parts
 		for j in range(len(all_v)):
 				loop_vn = all_loop_vn[j]
 				loop_e = all_loop_e[j]
@@ -114,14 +115,14 @@ for kkk in range(share_id,total_num,share_total):
 			all_t[j][:] = all_t[j][:] + all_v_count_list[j]
 
 
-		#write combined
+		#write combined (without joint) 
 		all_v2 = all_v
 		all_t2 = all_t
 		all_v2 = np.concatenate(all_v2,axis=0)
 		all_t2 = np.concatenate(all_t2,axis=0)
 		write_ply_triangle(ply_save_dir+"/combined_nojoint.ply", all_v2, all_t2)
 
-		#write combined
+		#write combined (with joint) 
 		all_v2 = all_v+[joint_v]
 		all_t2 = all_t+[joint_t+all_v_count_list[-1]]
 		all_v2 = np.concatenate(all_v2,axis=0)
@@ -134,7 +135,7 @@ for kkk in range(share_id,total_num,share_total):
 		write_ply_triangle(ply_save_dir+"/joint.ply", joint_v, joint_t)
 
 
-		#poisson blending 1
+		#poisson blending version 1
 		joint_v1 = np.copy(joint_v)
 		poisson_blending(joint_v1, joint_t, corresponding_loop_e, corresponding_vertices, force_correspondence=True)
 
@@ -146,7 +147,7 @@ for kkk in range(share_id,total_num,share_total):
 		write_ply_triangle(ply_save_dir+"/combined_blended.ply", all_v2, all_t2)
 
 
-		#poisson blending 2
+		#poisson blending version 2
 		joint_v2 = np.copy(joint_v)
 		poisson_blending(joint_v2, joint_t, corresponding_loop_e, corresponding_vertices, force_correspondence=False)
 
